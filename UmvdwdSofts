@@ -1,0 +1,679 @@
+
+import json
+import uuid
+import threading
+import random
+import os
+import subprocess
+import requests
+import sys
+import requests
+import numpy as np
+import matplotlib.pyplot as plt
+import datetime
+import hashlib
+import logging
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import webbrowser
+from concurrent.futures import ThreadPoolExecutor
+import csv
+import sqlite3
+from openpyxl import load_workbook
+from bs4 import BeautifulSoup
+from colorama import init, Fore, Style
+modules_to_import = [
+    'requests',
+    'numpy',
+    'sys',
+    'matplotlib',
+    'datetime',
+    'hashlib',
+    'logging',
+    'smtplib',
+    'email',
+    'webbrowser',
+    'concurrent.futures',
+    'csv',
+    'sqlite3',
+    'openpyxl',
+    'bs4',
+    'colorama'
+]
+
+for module in modules_to_import:
+    try:
+        __import__(module)
+    except ImportError:
+        print(f"Модуль {module} не найден. Установка...")
+        subprocess.check_call(['pip', 'install', module])
+import requests
+import numpy as np
+import matplotlib.pyplot as plt
+import datetime
+import hashlib
+import logging
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import webbrowser
+from concurrent.futures import ThreadPoolExecutor
+import csv
+import sqlite3
+from openpyxl import load_workbook
+from bs4 import BeautifulSoup
+from colorama import init, Fore, Style
+def fetch_proxy_list(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            proxy_list = []
+            for row in soup.find_all('tr'):
+                columns = row.find_all('td')
+                if len(columns) >= 2:
+                    ip = columns[0].text.strip()
+                    port = columns[1].text.strip()
+                    proxy_list.append(f"{ip}:{port}")
+            return proxy_list
+        else:
+            print(f"Failed to fetch proxy list. Status code: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"Error fetching proxy list: {e}")
+    return []
+def generate_random_proxy(proxy_list):
+    return random.choice(proxy_list)
+init()
+dcyan = Style.NORMAL + Fore.CYAN
+cyan = Style.BRIGHT + Fore.CYAN
+blueb = Style.BRIGHT + Fore.BLUE
+white = Style.BRIGHT + Fore.WHITE
+baza = Style.NORMAL
+# Цвета для текста
+COLOR_GREEN = Fore.GREEN
+COLOR_RESET = Style.RESET_ALL
+class TerminalColors:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    END = '\033[0m'
+
+# Function to generate a gradient from red to white
+def generate_red_to_white_gradient(steps=30):
+    colors = [
+        (255, 0, 0),  # Red
+        (255, 255, 255)  # White
+    ]
+    gradient_colors = []
+    n = len(colors)
+    for i in range(steps):
+        frac = i / steps
+        idx1 = int(frac * (n - 1))
+        idx2 = min(idx1 + 1, n - 1)
+        t = frac * (n - 1) - idx1
+        r = int(colors[idx1][0] * (1 - t) + colors[idx2][0] * t)
+        g = int(colors[idx1][1] * (1 - t) + colors[idx2][1] * t)
+        b = int(colors[idx1][2] * (1 - t) + colors[idx2][2] * t)
+        gradient_colors.append(f'\033[38;2;{r};{g};{b}m')
+    return gradient_colors
+
+def apply_gradient(text, colors):
+    colored_text = ""
+    color_length = len(colors)
+    for i, char in enumerate(text):
+        colored_text += colors[i % color_length] + char
+    return colored_text + TerminalColors.END
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+def get_ip_info(ip_address):
+    url = f"https://ipinfo.io/{ip_address}/json"
+    response = requests.get(url)
+    data = response.json()
+    return data
+def get_ip_type(ip_address):
+    url = f"https://ipwho.is/{ip_address}"
+    response = requests.get(url)
+    ip_info = response.json()
+    return ip_info
+
+email_list = [
+    "support@telegram.org",
+    "dmca@telegram.org",
+    "security@telegram.org",
+    "sms@telegram.org",
+    "info@telegram.org",
+    "marta@telegram.org",
+    "spam@telegram.org",
+    "alex@telegram.org",
+    "abuse@telegram.org",
+    "pavel@telegram.org",
+    "durov@telegram.org",
+    "elies@telegram.org",
+    "ceo@telegram.org",
+    "mr@telegram.org",
+    "levlam@telegram.org",
+    "perekopsky@telegram.org",
+    "recover@telegram.org",
+    "germany@telegram.org",
+    "hyman@telegram.org",
+    "qa@telegram.org",
+    "stickers@telegram.org",
+    "ir@telegram.org",
+    "vadim@telegram.org",
+    "shyam@telegram.org",
+    "stopca@telegram.org",
+    "u003esupport@telegram.org",
+    "ask@telegram.org",
+    "125support@telegram.org",
+    "me@telegram.org",
+    "enquiries@telegram.org",
+    "api_support@telegram.org",
+    "marketing@telegram.org",
+    "ca@telegram.org",
+    "recovery@telegram.org",
+    "http@telegram.org",
+    "corp@telegram.org",
+    "corona@telegram.org",
+    "ton@telegram.org",
+    "sticker@telegram.org"
+]
+
+# Список учетных записей отправителей
+senders = [
+    {"email": "nzxtline@gmail.com", "password": "igax bnpq aqux yoca"},
+    {"email": "etheriuethernet@gmail.com", "password": "iwuv pzpd wgih xrdf"},
+    {"email": "killkillerov17@gmail.com", "password": "pedg wjah jgdi unum"},
+    {"email": "dicacc1337@gmail.com", "password": "rnyi vnpc fyfo hwlb"},
+    {"email": "snoserhappis@gmail.com", "password": "quuq srqg asei chsq"},
+    {"email": "snoserhappis2@gmail.com", "password": "kjit rmzn ykcn updn"},
+    {"email": "snoserhappis3@gmail.com", "password": "xjal rjbg lvoz movq"},
+    # Добавьте больше учетных записей при необходимости
+]
+def send_email(sender_email, sender_password, subject, body, recipient_email):
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient_email
+    msg['Subject'] = subject
+
+    # Очистка тела письма от неразрывных пробелов
+    body_cleaned = body.replace('\xa0', ' ')
+    msg.attach(MIMEText(body_cleaned, 'plain', 'utf-8'))
+
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        text = msg.as_string()
+        server.sendmail(sender_email, recipient_email, text)
+        server.quit()
+        print(f"Email sent to {recipient_email} from {sender_email}")
+        return True
+    except Exception as e:
+        print(f"Failed to send email to {recipient_email} from {sender_email}: {str(e)}")
+        return False
+def apply_gradient(text, colors):
+    colored_text = ""
+    color_length = len(colors)
+    for i, char in enumerate(text):
+        colored_text += colors[i % color_length] + char
+    return colored_text + TerminalColors.END
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def read_file(filename):
+    try:
+        with open(filename, 'r') as file:
+            content = file.read()
+        return content
+    except FileNotFoundError:
+        return f"Файл '{filename}' не найден."
+    except Exception as e:
+        return f"Ошибка при чтении файла '{filename}': {str(e)}"
+
+def write_file(filename, content):
+    try:
+        with open(filename, 'w') as file:
+            file.write(content)
+        return f"Данные успешно записаны в файл '{filename}'."
+    except Exception as e:
+        return f"Ошибка при записи в файл '{filename}': {str(e)}"
+
+def copy_file(src, dst):
+    try:
+        shutil.copyfile(src, dst)
+        return f"Файл успешно скопирован из '{src}' в '{dst}'."
+    except FileNotFoundError:
+        return f"Файл '{src}' не найден."
+    except Exception as e:
+        return f"Ошибка при копировании файла: {str(e)}"
+
+
+def delete_file(filename):
+    try:
+        os.remove(filename)
+        return f"Файл '{filename}' успешно удален."
+    except FileNotFoundError:
+        return f"Файл '{filename}' не найден."
+    except Exception as e:
+        return f"Ошибка при удалении файла '{filename}': {str(e)}"
+
+
+def list_files(directory):
+    try:
+        files = os.listdir(directory)
+        return files
+    except FileNotFoundError:
+        return f"Директория '{directory}' не найдена."
+    except Exception as e:
+        return f"Ошибка при получении списка файлов: {str(e)}"
+
+
+def create_directory(directory):
+    try:
+        os.makedirs(directory)
+        return f"Директория '{directory}' успешно создана."
+    except FileExistsError:
+        return f"Директория '{directory}' уже существует."
+    except Exception as e:
+        return f"Ошибка при создании директории '{directory}': {str(e)}"
+
+
+def delete_directory(directory):
+    try:
+        os.rmdir(directory)
+        return f"Директория '{directory}' успешно удалена."
+    except FileNotFoundError:
+        return f"Директория '{directory}' не найдена."
+    except OSError as e:
+        return f"Ошибка при удалении директории '{directory}': {str(e)}"
+
+
+def custom_database():
+    try:
+        print(
+            f"\n{dcyan}[{white}~{dcyan}]{cyan} Пример : C:\\Users\\Admin\\Desktop\\Soft\\GetContact.csv \n{dcyan}[{white}~{dcyan}]{cyan} Или же поместите базу в одну папку с софтом и укажите название файла с расширением"
+            f"\n{dcyan}[{white}~{dcyan}]{cyan} Также не забывайте указывать расширение базы данных!")
+
+        file_path = input(f"\n{dcyan}[{white}?{dcyan}]{cyan} Введите путь к базе данных : ")
+        search_text = input(
+            f"{dcyan}[{white}?{dcyan}]{cyan} Введите параметр, по которому хотите найти информацию в бд : ")
+        coder = input(f"{dcyan}[{white}?{dcyan}]{cyan} Выберите кодировку (Часто это utf-8 либо cp1251) : ")
+    except Exception as e:
+        print(f"Ошибка при работе с базой данных: {str(e)}")
+
+
+def get_request(url):
+    try:
+        response = requests.get(url)
+        return response.text
+    except requests.exceptions.RequestException as e:
+        return f"Ошибка при выполнении GET запроса: {str(e)}"
+
+url = "https://example.com"
+print(get_request(url))
+
+
+def post_request(url, data):
+    try:
+        response = requests.post(url, data=data)
+        return response.text
+    except requests.exceptions.RequestException as e:
+        return f"Ошибка при выполнении POST запроса: {str(e)}"
+
+
+def fetch_from_api(url):
+    try:
+        response = requests.get(url)
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        return f"Ошибка при получении данных с API: {str(e)}"
+    except json.JSONDecodeError as e:
+        return f"Ошибка при декодировании JSON: {str(e)}"
+
+
+def parse_json(json_data):
+    try:
+        parsed_data = json.loads(json_data)
+        return parsed_data
+    except json.JSONDecodeError as e:
+        return f"Ошибка при парсинге JSON данных: {str(e)}"
+
+
+def sort_list(data):
+    try:
+        data.sort()
+        return data
+    except Exception as e:
+        return f"Ошибка при сортировке списка: {str(e)}"
+
+
+def filter_list(data, condition):
+    try:
+        filtered_data = list(filter(condition, data))
+        return filtered_data
+    except Exception as e:
+        return f"Ошибка при фильтрации списка: {str(e)}"
+
+
+def generate_random_number(min_num, max_num):
+    try:
+        return random.randint(min_num, max_num)
+    except ValueError:
+        return f"Ошибка: Неверные границы чисел."
+    except Exception as e:
+        return f"Ошибка при генерации случайного числа: {str(e)}"
+
+
+def encrypt_data(data):
+    try:
+        encoded_data = hashlib.sha256(data.encode()).hexdigest()
+        return encoded_data
+    except Exception as e:
+        return f"Ошибка при шифровании данных: {str(e)}"
+
+
+def decrypt_data(data):
+    try:
+        decoded_data = hashlib.sha256(data.encode()).hexdigest()
+        return decoded_data
+    except Exception as e:
+        return f"Ошибка при дешифровании данных: {str(e)}"
+
+
+def plot_data(x, y):
+    try:
+        plt.plot(x, y)
+        plt.xlabel('X-axis')
+        plt.ylabel('Y-axis')
+        plt.title('Plot')
+        plt.show()
+        return "График успешно построен."
+    except Exception as e:
+        return f"Ошибка при построении графика: {str(e)}"
+
+
+def generate_chart(data):
+    try:
+        data_dict = json.loads(data)
+        labels = list(data_dict.keys())
+        values = list(data_dict.values())
+        plt.pie(values, labels=labels, autopct='%1.1f%%')
+        plt.title('Pie Chart')
+        plt.show()
+        return "Диаграмма успешно сгенерирована."
+    except Exception as e:
+        return f"Ошибка при генерации диаграммы: {str(e)}"
+
+
+def find_substring(main_string, substring):
+    try:
+        index = main_string.index(substring)
+        return f"Подстрока найдена в позиции {index}."
+    except ValueError:
+        return "Подстрока не найдена."
+    except Exception as e:
+        return f"Ошибка при поиске подстроки: {str(e)}"
+
+
+def replace_text(text, old, new):
+    try:
+        replaced_text = text.replace(old, new)
+        return replaced_text
+    except Exception as e:
+        return f"Ошибка при замене текста: {str(e)}"
+
+
+def split_string(text, delimiter):
+    try:
+        split_text = text.split(delimiter)
+        return split_text
+    except Exception as e:
+        return f"Ошибка при разделении строки: {str(e)}"
+
+
+def change_case(text, case):
+    try:
+        if case == 'upper':
+            return text.upper()
+        elif case == 'lower':
+            return text.lower()
+        else:
+            return "Неверно указан регистр. Выберите 'upper' или 'lower'."
+    except Exception as e:
+        return f"Ошибка при изменении регистра строки: {str(e)}"
+
+
+def calculate_mean(data):
+    try:
+        mean = np.mean(data)
+        return mean
+    except Exception as e:
+        return f"Ошибка при вычислении среднего значения: {str(e)}"
+
+
+def calculate_median(data):
+    try:
+        median = np.median(data)
+        return median
+    except Exception as e:
+        return f"Ошибка при вычислении медианы: {str(e)}"
+
+
+def calculate_std_deviation(data):
+    try:
+        std_deviation = np.std(data)
+        return std_deviation
+    except Exception as e:
+        return f"Ошибка при вычислении стандартного отклонения: {str(e)}"
+
+
+def calculate_sum(data):
+    try:
+        total_sum = sum(data)
+        return total_sum
+    except Exception as e:
+        return f"Ошибка при вычислении суммы: {str(e)}"
+
+
+def get_current_time():
+    try:
+        current_time = datetime.datetime.now().time()
+        return current_time.strftime('%H:%M:%S')
+    except Exception as e:
+        return f"Ошибка при получении текущего времени: {str(e)}"
+
+
+def get_current_date():
+    try:
+        current_date = datetime.datetime.now().date()
+        return current_date.strftime('%Y-%m-%d')
+    except Exception as e:
+        return f"Ошибка при получении текущей даты: {str(e)}"
+
+
+def format_date(date, format):
+    try:
+        formatted_date = date.strftime(format)
+        return formatted_date
+    except Exception as e:
+        return f"Ошибка при форматировании даты: {str(e)}"
+
+
+def load_image(filename):
+    try:
+        with open(filename, 'rb') as f:
+            image_data = f.read()
+        return image_data
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Ошибка: Файл '{filename}' не найден.")
+    except Exception as e:
+        raise Exception(f"Ошибка при загрузке изображения: {str(e)}")
+
+
+def save_image(image, filename):
+    try:
+        with open(filename, 'wb') as f:
+            f.write(image)
+    except Exception as e:
+        raise Exception(f"Ошибка при сохранении изображения: {str(e)}")
+
+
+def connect_to_database(db_url):
+    try:
+        conn = sqlite3.connect(db_url)
+        return conn
+    except Exception as e:
+        raise Exception(f"Ошибка при подключении к базе данных: {str(e)}")
+
+
+def execute_sql_query(conn, query):
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+    except Exception as e:
+        raise Exception(f"Ошибка при выполнении SQL запроса: {str(e)}")
+
+
+try:
+    image_data = load_image('example.jpg')
+
+except Exception as e:
+    print(f"Ошибка: {str(e)}")
+
+try:
+    image_data = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR...'
+    save_image(image_data, 'example_saved.png')
+
+except Exception as e:
+    print(f"Ошибка: {str(e)}")
+
+try:
+    conn = connect_to_database('example.db')
+    print("Успешное подключение к базе данных.")
+except Exception as e:
+    print(f"Ошибка: {str(e)}")
+
+try:
+    conn = connect_to_database('example.db')
+    query = ""
+    result = execute_sql_query(conn, query)
+    print(result)
+except Exception as e:
+    print(f"Ошибка: {str(e)}")
+
+
+def connect_to_database(db_url):
+    try:
+        # Ваш код подключения к базе данных
+        return f"Успешное подключение к базе данных по URL: '{db_url}'."
+    except Exception as e:
+        return f"Ошибка при подключении к базе данных: {str(e)}"
+
+
+import sqlite3
+
+
+def execute_sql_query(query):
+    try:
+        conn = sqlite3.connect('example.db')
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return
+    except sqlite3.Error as e:
+        return f"Ошибка при выполнении SQL запроса: {str(e)}"
+    finally:
+        if conn:
+            conn.close()
+
+
+query = ""
+result = execute_sql_query(query)
+print(result)
+
+
+def search_all_databases(value):
+    base_dir = 'c:/users/base'
+    if not os.path.exists(base_dir):
+        print(f"{TerminalColors.RED}Директория {base_dir} не существует.{TerminalColors.END}")
+        return
+
+    databases = [os.path.join(base_dir, f) for f in os.listdir(base_dir) if
+                 f.endswith(('.csv', '.xlsx', '.db', '.sqlite', '.txt'))]
+
+    if not databases:
+        print(f"{TerminalColors.RED}В указанной директории нет подходящих баз данных.{TerminalColors.END}")
+        return
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        for database in databases:
+            file_format = database.split('.')[-1]
+            if file_format == 'csv':
+                executor.submit(search_csv, database, value)
+            elif file_format == 'xlsx':
+                executor.submit(search_xlsx, database, value)
+            elif file_format == 'txt':
+                executor.submit(search_txt, database, value)
+            elif file_format in ('db', 'sqlite'):
+                query = f"SELECT * FROM table WHERE column LIKE '%{value}%'"
+                executor.submit(search_sql, database, query)
+
+
+def search_csv(database, value):
+    try:
+        df = pd.read_csv(database)
+        result = df[df.apply(lambda row: row.astype(str).str.contains(value, case=False).any(), axis=1)]
+        if not result.empty:
+            print(f"{TerminalColors.GREEN}Результаты поиска в {database}:{TerminalColors.END}")
+            print(result)
+    except Exception as e:
+        print(f"{TerminalColors.RED}Ошибка при поиске в {database}: {e}{TerminalColors.END}")
+
+
+def search_xlsx(database, value):
+    try:
+        df = pd.read_excel(database)
+        result = df[df.apply(lambda row: row.astype(str).str.contains(value, case=False).any(), axis=1)]
+        if not result.empty:
+            print(f"{TerminalColors.GREEN}Результаты поиска в {database}:{TerminalColors.END}")
+            print(result)
+    except Exception as e:
+        print(f"{TerminalColors.RED}Ошибка при поиске в {database}: {e}{TerminalColors.END}")
+
+
+def generate_text_with_typos(num_lines, comma_frequency, typo_level):
+    if not os.path.exists('phrases.txt'):
+        print('phrases.txt does not exist. Please create this file and add some lines to it.')
+        return
+
+    with open('phrases.txt', 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    lines = [line.strip() for line in lines]
+
+    generated_text = []
+    used_lines = []
+
+    typo_percentages = {
+        1: 0.01,  # 1% слов с опечатками
+        2: 0.02,  # 2% слов с опечатками
+        3: 0.1  # 10% слов с опечатками
+    }
+
+    for i in range(num_lines):
+        available_lines = [line for line in lines if line not in used_lines]
+
+        if available_lines:
+            next_line = random.choice(available_lines)
+
+            if i > 0 and i % comma_frequency == 0:
+                generated_text.append(',')
+
+            words = next_line.split()
+
+            if typo_level > 0:
+                words_with_typos = []
+
+                for 
